@@ -20,8 +20,8 @@ from PIL import Image, ImageDraw, ImageTk, ImageFont
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 parser = argparse.ArgumentParser(description="View images with bboxes from the COCO dataset")
-parser.add_argument("-i", "--images", default='', type=str, metavar="PATH", help="path to images folder")
-parser.add_argument("-a", "--annotations", default='', type=str, metavar="PATH", help="path to annotations json file")
+parser.add_argument("-i", "--images", default='D:\dataset\seed\disease\\split/val_images', type=str, metavar="PATH", help="path to images folder")
+parser.add_argument("-a", "--annotations", default='D:\dataset\seed\disease\\split/val.json', type=str, metavar="PATH", help="path to annotations json file")
 
 
 class Data:
@@ -31,6 +31,9 @@ class Data:
         self.image_dir = image_dir
         instances, images, categories = parse_coco(annotations_file)
         self.instances = instances
+        random.seed(42)
+        random.shuffle(images)
+        random.seed(None)
         self.images = ImageList(images)  # NOTE: image list is based on annotations file
         self.categories = categories  # Dataset categories
 
@@ -160,8 +163,8 @@ def draw_bboxes(draw, objects, labels, obj_categories, ignore, width, label_size
 
             if labels:
                 text = c[0]
-                font = ImageFont.truetype("DejaVuSans.ttf", size=label_size)
-
+                # font = ImageFont.truetype("DejaVuSans.ttf", size=label_size)
+                font = ImageFont.truetype("C:\\Windows\\Fonts\\HANBatang.ttf", size=label_size)
                 tw, th = draw.textsize(text, font)
                 tx0 = b[0]
                 ty0 = b[1] - th
